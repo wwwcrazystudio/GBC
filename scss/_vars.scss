@@ -1,0 +1,22 @@
+
+// Customization Bootstrap vars from "app/libs/bootstrap/scss/_variables.scss"
+$grid-gutter-width: 40px;
+$grid-columns: 12;
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
+$container-max-widths: (sm: 540px, md: 720px, lg: 960px, xl: 1200px);
+
+$gutter: $grid-gutter-width;
+
+
+//colors
+$body-color: #000;
+$accent-1: #0E4C9A;
+$accent-2: #7497C3;
+$accent-3: rgba(0, 0, 0, 0.38);
+$border-color: rgba(#000, .29);
+//fonts
+$default-font: "Montserrat-Regular";
+$bold-font: "Montserrat-Bold";
+$medium-font: "Montserrat-Medium";
+$medium-font--italic: "Montserrat-MediumItalic";
+$italic-font: "Montserrat-Italic";
