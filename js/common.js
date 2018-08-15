@@ -1,11 +1,56 @@
-$(window).on('load', function () {
-
-
-
-});
-
 
 $(function() {
+
+
+    ticketsMenuItem();
+
+    function ticketsMenuItem() {
+
+        var ticketsMenuItem = $(".main-nav__list").find('a[href*="#shop"]').closest('li'),
+        eventsMenuItem = $(".main-nav__list").find('a[href*="events"]').closest('li');
+
+
+        ticketsMenuItem.on('click', function () {
+
+            setCookie('ticketsMenuItem','toggled');
+
+        });
+
+        var ticketsCookieVal = getCookie('ticketsMenuItem');
+
+        if(window.location.href.indexOf("events") > -1) {
+
+            $(window).on('beforeunload', function () {
+
+                deleteCookie('ticketsMenuItem');
+
+            });
+
+            if(ticketsCookieVal){
+
+                ticketsMenuItem.addClass('current-menu-item').siblings().removeClass('current-menu-item');
+
+            }
+
+            else{
+
+                eventsMenuItem.addClass('current-menu-item').siblings().removeClass('current-menu-item');
+
+            }
+
+        };
+
+
+        $(".page-footer").find('a[href*="#shop"]').on('click', function () {
+
+            $(".page-header").find('a[href*="#shop"]').closest('li').addClass('current-menu-item').siblings().removeClass('current-menu-item');
+
+        });
+
+
+    };
+
+
 
     AOS.init({
         startEvent: 'load',
@@ -22,7 +67,7 @@ $(function() {
         autoplay: true,
         dots: true,
         fade: true,
-        speed: 400,
+        speed: 600,
         fade: true,
         cssEase: 'linear',
         pauseOnFocus: false,
@@ -144,6 +189,7 @@ $(function() {
         //your current click function
         $('.scroll').on('click',function(e){
             e.preventDefault();
+
             $('html,body').animate({
                 scrollTop:$($(this).attr('href')).offset().top - headerHeight
             },2000,'swing');
@@ -160,15 +206,11 @@ $(function() {
     }
 
 
-    $(".become-member-item").on('click', function (event) {
+    $(".become-member-item-wrapper").on('click', function (event) {
 
         var th = $(this),
             thisText = th.find('.become-member-item__title').text(),
             target = $(".join-us-form__checkbox-title:contains("+ thisText +")");
-
-        if ( th.is('.become-member-item--sponsoren') && !$(event.target).closest('.become-member-item__btn').length) {
-            return false;
-        }
 
         if ( !$(event.target).closest('.city').length) {
             $(".city-drop,.city-toggler").removeClass('is-active');
@@ -193,10 +235,11 @@ $(function() {
 
         $(".main-nav__list-wrapper").toggleClass('is-shown');
 
-        $("body").toggleClass('menu-shown')
+        $("body").toggleClass('menu-shown');
+
+        $(".page-blur").toggleClass('is-active');
 
     });
-
 
     //выбор языка
 
@@ -206,14 +249,13 @@ $(function() {
 
     });
 
-    $(".language__drop").on('click', 'li', function () {
+    $(".language__drop-item").on('click', '', function () {
 
        var thisText = $(this).text();
 
        $(this).closest('.language').find('.language__toggler').text(thisText);
 
         $(this).closest('.language').removeClass('is-active');
-
 
     });
 
@@ -225,5 +267,49 @@ $(function() {
         }
 
     });
+
+    $(".main-nav__list").on('click', 'li', function (event) {
+
+        $(this).addClass('is-active').siblings().removeClass('is-active');
+
+    });
+
+
+    gallerySlider();
+    function gallerySlider() {
+
+        $().fancybox({
+            selector : '.slick-slide:not(.slick-cloned)',
+            hash     : false,
+            loop: true
+        });
+
+
+        $("#gallery-slider").slick({
+            slidesToShow:4,
+            slidesToScroll:1,
+            prevArrow: ".gallery__slider-control--prev",
+            nextArrow: ".gallery__slider-control--next",
+            dots: true,
+            customPaging : function(slider, i) {
+                return '<a href="#" class="gallery__slider-dot"></a>';
+            },
+            responsive: [
+                {
+                    breakpoint: 993,
+                    settings: {
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2,
+                    }
+                }
+            ]
+        });
+
+    }
 
 });
